@@ -6,6 +6,12 @@ unable to show arXiv updates?
 Wonder no more! arXiv decent feeds reads and converts arXiv RSS feeds to valid
 RSS 2.0 feeds that slackbot will (hopefully) read!
 
+## Installation
+
+```
+pip install https://github.com/trovao/arxiv-decent-feeds/zipball/master
+```
+
 ## Usage
 
 ### Adding a feed
