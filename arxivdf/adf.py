@@ -94,6 +94,7 @@ def main():
                     if options.base_url:
                         options.base_url += os.path.basename(feed.target_file)
                     feedwriter.build_feed(
+                        db_session,
                         feed,
                         options.base_url,
                         limit,

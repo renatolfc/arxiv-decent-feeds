@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import sys
+import model
 
 
 FEED_HEADER = '''<?xml version="1.0" encoding="UTF-8"?>
@@ -32,13 +33,16 @@ FEED_FOOTER = '''
 
 ATOM_LINK = '<atom:link href="{0}" rel="self" type="application/rss+xml"/>'
 
-def build_feed(feed, final_url='', limit=None, stream=sys.stdout):
+def build_feed(session, feed, final_url='', limit=None, stream=sys.stdout):
     if final_url:
         final_url = ATOM_LINK.format(final_url)
     stream.write(FEED_HEADER.format(feed, final_url))
     if not limit:
         limit = len(feed.items)
-    for i in range(min(limit, len(feed.items))):
-        item = feed.items[i]
+    items = session.query(model.FeedItem) \
+            .filter(model.FeedItem.feed_id==feed.id) \
+            .order_by(model.FeedItem.pubdate.desc()) \
+            .limit(min(limit, len(feed.items))).all()
+    for item in items:
         stream.write(FEED_ITEM.format(item))
     stream.write(FEED_FOOTER)
