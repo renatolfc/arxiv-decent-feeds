@@ -47,5 +47,10 @@ directory.
 
 ### Periodically updating and generating feeds
 
-Just set up a cron job with to do that.
+Just set up a cron job with to do that. What I'm currently using is, with
+a python virtualenv (the `source ~/venvs/feeds/bin/activate` part):
+
+```cron
+*/5 * * * * (source ~/venvs/feeds/bin/activate ; arxivdf update ; arxivdf generate)
+```
 
