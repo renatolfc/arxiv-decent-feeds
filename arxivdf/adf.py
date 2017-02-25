@@ -18,6 +18,10 @@ DBPATH = os.path.join(
 DB = DBTYPE + DBPATH
 
 
+def urljoin(*args):
+    return '/'.join(s for s in args if s.strip() != '')
+
+
 def parseOptions():
     parser = argparse.ArgumentParser(add_help=True)
     parser.add_argument('-d', '--database',
@@ -92,7 +96,10 @@ def main():
             for feed in db_session.query(model.Feed).all():
                 with open(feed.target_file, 'w') as fp:
                     if options.base_url:
-                        options.base_url += os.path.basename(feed.target_file)
+                        options.base_url = urljoin(
+                            options.base_url,
+                            os.path.basename(feed.target_file)
+                        )
                     feedwriter.build_feed(
                         db_session,
                         feed,
