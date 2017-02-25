@@ -42,6 +42,7 @@ setup(
             'arxivdf=arxivdf.adf:main',
         ],
     },
-    install_requires=['requests', 'feedparser', 'python-dateutil', 'lxml'],
+    install_requires=['requests', 'feedparser', 'python-dateutil', 'lxml',
+                      'sqlalchemy'],
 )
 
