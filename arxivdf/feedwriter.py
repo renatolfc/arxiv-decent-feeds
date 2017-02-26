@@ -11,6 +11,7 @@ FEED_HEADER = '''<?xml version="1.0" encoding="UTF-8"?>
         {1}
         <link>{0.url}</link>
         <title>{0.name}</title>
+        <lastBuildDate>{2}</lastBuildDate>
         <image>
             <title>{0.name}</title>
             <url>{0.imgurl}</url>
@@ -36,13 +37,14 @@ ATOM_LINK = '<atom:link href="{0}" rel="self" type="application/rss+xml"/>'
 def build_feed(session, feed, final_url='', limit=None, stream=sys.stdout):
     if final_url:
         final_url = ATOM_LINK.format(final_url)
-    stream.write(FEED_HEADER.format(feed, final_url))
     if not limit:
         limit = len(feed.items)
     items = session.query(model.FeedItem) \
             .filter(model.FeedItem.feed_id==feed.id) \
             .order_by(model.FeedItem.pubdate.desc()) \
             .limit(min(limit, len(feed.items))).all()
+    # FIXME: only makes sense if the channel is not empty
+    stream.write(FEED_HEADER.format(feed, final_url, items[0].pubdate_rfc))
     for item in items:
         stream.write(FEED_ITEM.format(item))
     stream.write(FEED_FOOTER)
