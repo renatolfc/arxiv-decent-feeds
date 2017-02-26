@@ -62,6 +62,15 @@ def parseOptions():
     return parser.parse_args()
 
 
+def rebuild_url(baseurl, feed):
+    if baseurl:
+        return urljoin(
+            baseurl,
+            os.path.basename(feed.target_file)
+        )
+    return ''
+
+
 def main():
     configdir = os.path.dirname(DBPATH)
     if not os.path.exists(os.path.dirname(DBPATH)):
@@ -91,19 +100,19 @@ def main():
                     .filter(model.Feed.id==int(options.id)).all()
             if feed:
                 with open(feed[0].target_file, 'w') as fp:
-                    feedwriter.build_feed(feed[0], options.base_url, limit, fp)
+                    feedwriter.build_feed(
+                        feed[0],
+                        rebuild_url(options.base_url, feed),
+                        limit,
+                        fp
+                    )
         else:
             for feed in db_session.query(model.Feed).all():
                 with open(feed.target_file, 'w') as fp:
-                    if options.base_url:
-                        options.base_url = urljoin(
-                            options.base_url,
-                            os.path.basename(feed.target_file)
-                        )
                     feedwriter.build_feed(
                         db_session,
                         feed,
-                        options.base_url,
+                        rebuild_url(options.base_url, feed),
                         limit,
                         fp
                     )
