@@ -52,7 +52,7 @@ def parseOptions():
 
     generate = subparsers.add_parser('generate',
                                      help='outputs a feed of all data')
-    generate.add_argument('base_url', nargs='?', default='',
+    generate.add_argument('base_url',
                           help='base url for generating feeds')
     generate.add_argument('id', nargs='?', default='all',
                           help='id of the source to read from ("all" for all)')
