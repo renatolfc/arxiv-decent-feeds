@@ -43,6 +43,6 @@ setup(
         ],
     },
     install_requires=['requests', 'feedparser', 'python-dateutil', 'lxml',
-                      'sqlalchemy'],
+                      'sqlalchemy', 'pytz', 'feedgen'],
 )
 
