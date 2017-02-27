@@ -3,6 +3,7 @@
 
 import sys
 import model
+from email.Utils import formatdate
 
 
 FEED_HEADER = '''<?xml version="1.0" encoding="UTF-8"?>
@@ -12,6 +13,7 @@ FEED_HEADER = '''<?xml version="1.0" encoding="UTF-8"?>
         <link>{0.url}</link>
         <title>{0.name}</title>
         <lastBuildDate>{2}</lastBuildDate>
+        <pubDate>{3}</pubDate>
         <image>
             <title>{0.name}</title>
             <url>{0.imgurl}</url>
@@ -44,7 +46,14 @@ def build_feed(session, feed, final_url='', limit=None, stream=sys.stdout):
             .order_by(model.FeedItem.pubdate.desc()) \
             .limit(min(limit, len(feed.items))).all()
     # FIXME: only makes sense if the channel is not empty
-    stream.write(FEED_HEADER.format(feed, final_url, items[0].pubdate_rfc))
+    stream.write(
+        FEED_HEADER.format(
+            feed,
+            final_url,
+            items[0].pubdate_rfc,
+            formatdate()
+        )
+    )
     for item in items:
         stream.write(FEED_ITEM.format(item))
     stream.write(FEED_FOOTER)
