@@ -21,7 +21,7 @@ class Feed(Base):
     imgtitle = Column(String(1024))
     imgurl = Column(String(1024))
     imglink = Column(String(1024))
-    updated = Column(DateTime)
+    updated = Column(DateTime(timezone=True))
     items = relationship('FeedItem', back_populates='feed',
                          cascade="all, delete-orphan")
     target_file = Column(String(1024))
@@ -44,7 +44,7 @@ class FeedItem(Base):
     link = Column(String(1024), unique=True)
     title = Column(String(1024))
     summary = Column(String(4096))
-    pubdate = Column(DateTime)
+    pubdate = Column(DateTime(timezone=True))
     guid_is_permalink = Column(Boolean)
     guid = Column(String(1024))
 
