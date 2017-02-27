@@ -24,8 +24,6 @@ def build_feed(session, feed, final_url='', limit=None, stream=sys.stdout):
     fg.ttl(60)
     fg.generator('arxiv-decent-feeds')
 
-    import pdb; pdb.set_trace()
-
     if not items:
         stream.write(fg.rss_str(pretty=True))
         return
