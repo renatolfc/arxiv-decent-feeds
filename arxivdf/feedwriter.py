@@ -31,6 +31,7 @@ def build_feed(session, feed, final_url='', limit=None, stream=sys.stdout):
     for item in items:
         if not item.pubdate.tzinfo:
             # Add UTC to a naive datetime
+            session.expunge(item)
             item.pubdate = pytz.utc.localize(item.pubdate)
         fe = fg.add_entry()
         fe.title(item.title)
