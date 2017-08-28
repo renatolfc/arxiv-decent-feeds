@@ -47,7 +47,7 @@ def fetch_feed(session, url, target_file=None):
     else:
         dbfeed = dbfeed[0]
         dbfeed = session.merge(dbfeed)
-    if feed['feed']['updated_parsed']:
+    if 'updated_parsed' in feed['feed'] and feed['feed']['updated_parsed']:
         dbfeed.updated = datetime.fromtimestamp(
             mktime(feed['feed']['updated_parsed'])
         )
