@@ -7,5 +7,5 @@ python-dateutil==2.6.0
 requests==2.13.0
 six==1.10.0
 SQLAlchemy==1.1.5
-feedgen==0.5.1
+feedgen==0.9.0
 pytz==2016.10
